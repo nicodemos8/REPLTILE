@@ -1,0 +1,42 @@
+# Build outputs
+out/
+lib/
+*.vsix
+
+# Dependencies
+node_modules/
+.npm
+
+# Cache directories
+.shadow-cljs/
+.cpcache/
+.clj-kondo/
+.lsp/
+.calva/
+
+# IDE files
+.vscode/settings.json
+.cursor/
+.DS_Store
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+.nrepl-port
+
+# Secrets and credentials
+.env
+.env.local
+*.pem
+*.key
+*_rsa*
+.ssh/
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Local development
+test-standalone.js

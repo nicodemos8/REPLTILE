@@ -1,0 +1,54 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Setup Java for Clojure
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+    
+    - name: Install Clojure CLI
+      uses: DeLaGuardo/setup-clojure@12.5
+      with:
+        cli: '1.11.1.1413'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Bundle dependencies
+      run: npm run bundle-deps
+    
+    - name: Build ClojureScript
+      run: npm run build:cljs
+    
+    - name: Build TypeScript
+      run: npm run build:ts
+    
+    - name: Run tests
+      run: npm test
+    
+    - name: Package VSIX (for testing)
+      run: npx vsce package
+    
+    - name: Upload VSIX artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: vsix-${{ github.sha }}
+        path: '*.vsix'

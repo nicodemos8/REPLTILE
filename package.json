@@ -1,0 +1,414 @@
+{
+  "name": "repltile-clojure-repl",
+  "displayName": "REPLTILE - Interactive Clojure REPL",
+  "description": "Interactive visual interface for Clojure REPL with standalone nREPL server - Beta Version",
+  "version": "1.0.0-beta",
+  "publisher": "repltile",
+  "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nicodemos8/REPLTILE.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nicodemos8/REPLTILE/issues"
+  },
+  "homepage": "https://github.com/nicodemos8/REPLTILE#readme",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "clojure",
+    "repl",
+    "nrepl",
+    "calva",
+    "lisp",
+    "development",
+    "interactive",
+    "standalone",
+    "visual",
+    "beta"
+  ],
+  "activationEvents": [
+    "onLanguage:clojure"
+  ],
+  "main": "./out/ts/extension.js",
+  "files": [
+    "out",
+    "lib",
+    "icon.png",
+    "node_modules/react",
+    "node_modules/react-dom",
+    "node_modules/scheduler",
+    "node_modules/source-map",
+    "node_modules/ansi_up",
+    "node_modules/ws"
+  ],
+  "contributes": {
+    "views": {
+      "explorer": []
+    },
+    "commands": [
+      {
+        "command": "repltile.show",
+        "title": "Open REPLTILE Panel",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.kill",
+        "title": "Close REPLTILE Panel",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.showLogs",
+        "title": "Show Debug Logs",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.openLogLocation",
+        "title": "Open Log Files Location",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.copyDebugInfo",
+        "title": "Copy Debug Information",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.switchToCurrentNs",
+        "title": "Switch to Current Namespace",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.reloadCurrentNs",
+        "title": "Reload Current Namespace",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.evalSelection",
+        "title": "Evaluate Selection",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.evalCurrentForm",
+        "title": "Evaluate Current Form",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.evalTopLevelForm",
+        "title": "Evaluate Top Level Form",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.evalCurrentLine",
+        "title": "Evaluate Current Line",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.loadCurrentFile",
+        "title": "Load Current File",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.clearRepl",
+        "title": "Clear REPL Output",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.runNamespaceTests",
+        "title": "Run All Tests for Current File's Namespace",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.focusInput",
+        "title": "Focus Input Field",
+        "category": "REPLTILE"
+      },
+      {
+        "command": "repltile.repeatLastCommand",
+        "title": "Repeat Last Command",
+        "category": "REPLTILE"
+      }
+    ],
+    "submenus": [
+      {
+        "id": "repltile.submenu",
+        "label": "REPLTILE",
+        "icon": "$(play)"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "repltile.submenu",
+          "when": "editorLangId == clojure",
+          "group": "repltile@1"
+        }
+      ],
+      "repltile.submenu": [
+        {
+          "command": "repltile.show",
+          "when": "true",
+          "group": "panel@1"
+        },
+        {
+          "command": "repltile.clearRepl",
+          "when": "true",
+          "group": "panel@2"
+        },
+        {
+          "command": "repltile.switchToCurrentNs",
+          "when": "editorLangId == clojure",
+          "group": "namespace@1"
+        },
+        {
+          "command": "repltile.reloadCurrentNs",
+          "when": "editorLangId == clojure",
+          "group": "namespace@2"
+        },
+        {
+          "command": "repltile.loadCurrentFile",
+          "when": "editorLangId == clojure",
+          "group": "namespace@3"
+        },
+        {
+          "command": "repltile.evalSelection",
+          "when": "editorLangId == clojure && editorHasSelection",
+          "group": "evaluation@1"
+        },
+        {
+          "command": "repltile.evalCurrentForm",
+          "when": "editorLangId == clojure",
+          "group": "evaluation@2"
+        },
+        {
+          "command": "repltile.evalTopLevelForm",
+          "when": "editorLangId == clojure",
+          "group": "evaluation@3"
+        },
+        {
+          "command": "repltile.evalCurrentLine",
+          "when": "editorLangId == clojure",
+          "group": "evaluation@4"
+        },
+        {
+          "command": "repltile.runNamespaceTests",
+          "when": "editorLangId == clojure",
+          "group": "testing@1"
+        },
+        {
+          "command": "repltile.focusInput",
+          "when": "true",
+          "group": "interface@1"
+        },
+        {
+          "command": "repltile.repeatLastCommand",
+          "when": "true",
+          "group": "interface@2"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "repltile.show",
+          "when": "true"
+        },
+        {
+          "command": "repltile.kill",
+          "when": "true"
+        },
+        {
+          "command": "repltile.showLogs",
+          "when": "true"
+        },
+        {
+          "command": "repltile.openLogLocation",
+          "when": "true"
+        },
+        {
+          "command": "repltile.copyDebugInfo",
+          "when": "true"
+        },
+        {
+          "command": "repltile.switchToCurrentNs",
+          "when": "editorLangId == clojure"
+        },
+        {
+          "command": "repltile.reloadCurrentNs",
+          "when": "editorLangId == clojure"
+        },
+        {
+          "command": "repltile.evalSelection",
+          "when": "editorLangId == clojure"
+        },
+        {
+          "command": "repltile.evalCurrentForm",
+          "when": "editorLangId == clojure"
+        },
+        {
+          "command": "repltile.evalTopLevelForm",
+          "when": "editorLangId == clojure"
+        },
+        {
+          "command": "repltile.evalCurrentLine",
+          "when": "editorLangId == clojure"
+        },
+        {
+          "command": "repltile.loadCurrentFile",
+          "when": "editorLangId == clojure"
+        },
+        {
+          "command": "repltile.clearRepl",
+          "when": "true"
+        },
+        {
+          "command": "repltile.runNamespaceTests",
+          "when": "editorLangId == clojure"
+        },
+        {
+          "command": "repltile.focusInput",
+          "when": "true"
+        },
+        {
+          "command": "repltile.repeatLastCommand",
+          "when": "true"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "repltile.switchToCurrentNs",
+        "key": "cmd+shift+n",
+        "mac": "cmd+shift+n",
+        "win": "ctrl+shift+n",
+        "linux": "ctrl+shift+n",
+        "when": "editorLangId == clojure"
+      },
+      {
+        "command": "repltile.reloadCurrentNs",
+        "key": "cmd+shift+l",
+        "mac": "cmd+shift+l",
+        "win": "ctrl+shift+l",
+        "linux": "ctrl+shift+l",
+        "when": "editorLangId == clojure"
+      },
+      {
+        "command": "repltile.evalSelection",
+        "key": "cmd+shift+e",
+        "mac": "cmd+shift+e",
+        "win": "ctrl+shift+e",
+        "linux": "ctrl+shift+e",
+        "when": "editorLangId == clojure && editorHasSelection"
+      },
+      {
+        "command": "repltile.evalCurrentForm",
+        "key": "cmd+enter",
+        "mac": "cmd+enter",
+        "win": "ctrl+enter",
+        "linux": "ctrl+enter",
+        "when": "editorLangId == clojure"
+      },
+      {
+        "command": "repltile.evalTopLevelForm",
+        "key": "cmd+shift+enter",
+        "mac": "cmd+shift+enter",
+        "win": "ctrl+shift+enter",
+        "linux": "ctrl+shift+enter",
+        "when": "editorLangId == clojure"
+      },
+      {
+        "command": "repltile.evalCurrentLine",
+        "key": "cmd+alt+enter",
+        "mac": "cmd+alt+enter",
+        "win": "ctrl+alt+enter",
+        "linux": "ctrl+alt+enter",
+        "when": "editorLangId == clojure"
+      },
+      {
+        "command": "repltile.loadCurrentFile",
+        "key": "cmd+shift+k",
+        "mac": "cmd+shift+k",
+        "win": "ctrl+shift+k",
+        "linux": "ctrl+shift+k",
+        "when": "editorLangId == clojure"
+      },
+      {
+        "command": "repltile.clearRepl",
+        "key": "cmd+k",
+        "mac": "cmd+k",
+        "win": "ctrl+k",
+        "linux": "ctrl+k",
+        "when": "true"
+      },
+      {
+        "command": "repltile.runNamespaceTests",
+        "key": "cmd+shift+t",
+        "mac": "cmd+shift+t",
+        "win": "ctrl+shift+t",
+        "linux": "ctrl+shift+t",
+        "when": "editorLangId == clojure"
+      },
+      {
+        "command": "repltile.focusInput",
+        "key": "cmd+shift+m",
+        "mac": "cmd+shift+m",
+        "win": "ctrl+shift+m",
+        "linux": "ctrl+shift+m",
+        "when": "true"
+      },
+      {
+        "command": "repltile.repeatLastCommand",
+        "key": "cmd+r",
+        "mac": "cmd+r",
+        "win": "ctrl+r",
+        "linux": "ctrl+r",
+        "when": "true"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "REPLTILE Configuration",
+      "properties": {
+        "repltile.enableDebugLogging": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable detailed debug logging for troubleshooting issues"
+        },
+        "repltile.logFileLocation": {
+          "type": "string",
+          "default": "~/.repltile/logs",
+          "description": "Location where REPLTILE log files are stored"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "bundle-deps": "node bundle-deps.js",
+    "vscode:prepublish": "npm run bundle-deps && npm run build",
+    "compile": "npm run bundle-deps && npm run build:cljs && npm run build:ts",
+    "build:cljs": "clojure -Sdeps '{:deps {thheller/shadow-cljs {:mvn/version \"2.20.0\"}}}' -M -m shadow.cljs.devtools.cli release extension webview",
+    "build:ts": "tsc -p ./",
+    "build": "npm run build:cljs && npm run build:ts",
+    "watch": "shadow-cljs watch extension webview",
+    "dev": "shadow-cljs watch extension webview",
+    "package": "npx vsce package",
+    "clean": "rm -rf out/ lib/ .shadow-cljs/",
+    "test": "node test-standalone.js"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.80.0",
+    "shadow-cljs": "^2.20.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "ansi_up": "^3.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "scheduler": "^0.23.0",
+    "source-map": "^0.6.1",
+    "ws": "^8.18.3"
+  }
+}

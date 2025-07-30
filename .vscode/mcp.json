@@ -1,0 +1,16 @@
+{
+  "servers": {
+    "repltile": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "-e",
+        "console.log('🤖 REPLTILE MCP Server - Placeholder'); console.log('Estrutura MCP implementada, aguardando finalização da comunicação com REPL'); process.exit(0);"
+      ],
+      "env": {
+        "VSCODE_WORKSPACE": "${workspaceFolder}",
+        "MCP_LOG_LEVEL": "info"
+      }
+    }
+  }
+}

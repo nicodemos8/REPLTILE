@@ -1,0 +1,28 @@
+{:deps true
+
+ :dev-http {8080 "out/webview"}
+
+ :builds
+ {:extension {:target :node-script
+              :output-to "out/main.js"
+              :main repltile.core.core/main
+              :devtools {:console-support true}
+              :compiler-options {:optimizations :simple
+                                 :pretty-print true
+                                 :pseudo-names true
+                                 :infer-externs false}
+              :js-options {:keep-native-requires true
+                           :keep-as-require #{"fs" "path" "process"}
+                           :resolve {"react" false
+                                     "react-dom" false
+                                     "scheduler" false}}}
+
+  :webview {:target :browser
+            :output-dir "out/webview"
+            :asset-path "/webview"
+            :modules {:main {:init-fn repltile.ui.core/init}}
+            :devtools {:http-root "out/webview"
+                       :http-port 8080}
+            :compiler-options {:optimizations :simple
+                               :pretty-print true
+                               :pseudo-names true}}}} 

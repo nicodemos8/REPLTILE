@@ -1,0 +1,49 @@
+# Source files not needed in production
+src/
+dev/
+
+# Build and cache directories
+.shadow-cljs/
+.cpcache/
+.clj-kondo/
+.lsp/
+.calva/
+.vscode/
+node_modules/
+
+# Development files
+*.clj
+shadow-cljs.edn
+deps.edn
+tsconfig.json
+tsc
+validate-deps.clj
+test-standalone.js
+bundle-deps.js
+
+# Documentation files (keep only essential)
+ARCHITECTURE.md
+BUILD_GUIDE.md
+DEBUG_INSTRUCTIONS.md
+IMPLEMENTATION_SUMMARY.md
+REPL_TOOLING_DOCUMENTATION.md
+TESTE_REPLTILE.md
+changelog.md
+
+# Empty files
+.nrepl-port
+
+# Old version directory
+repltile-ultimate-clojure-repl@2.0.0/
+
+# Git files
+.git/
+.gitignore
+
+# IDE files
+.DS_Store
+*.log
+
+# Temporary files
+*.tmp
+*.temp 
