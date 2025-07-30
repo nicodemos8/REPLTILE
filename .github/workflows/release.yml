@@ -74,8 +74,20 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
+    - name: Create OpenVSX namespace (if needed)
+      run: |
+        echo "🔧 Criando namespace 'repltile' no OpenVSX..."
+        npx ovsx create-namespace repltile -p ${{ secrets.OVSX_TOKEN }} || {
+          echo "⚠️ Namespace 'repltile' pode já existir (erro esperado)"
+        }
+      env:
+        OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
+        
     - name: Publish to OpenVSX
-      run: npx ovsx publish ${{ steps.vsix.outputs.filename }} -p ${{ secrets.OVSX_TOKEN }}
+      run: |
+        echo "🚀 Publicando no OpenVSX Registry..."
+        npx ovsx publish ${{ steps.vsix.outputs.filename }} -p ${{ secrets.OVSX_TOKEN }}
+        echo "✅ Publicado com sucesso no OpenVSX!"
       env:
         OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
     
