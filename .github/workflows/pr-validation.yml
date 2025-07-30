@@ -47,21 +47,7 @@ jobs:
         echo "✅ VSIX file generated successfully"
         ls -la *.vsix
     
-    - name: Comment on PR
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const fs = require('fs');
-          const vsixFiles = fs.readdirSync('.').filter(f => f.endsWith('.vsix'));
-          const vsixFile = vsixFiles[0];
-          
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: `🎉 **Build Success!** 
-            
-            ✅ VSIX package generated: \`${vsixFile}\`
-            
-            Esta PR foi validada e pode ser instalada/testada quando merged para \`main\`.`
-          });
+    - name: PR Validation Complete
+      run: |
+        echo "🎉 PR Validation completed successfully!"
+        echo "✅ All checks passed - ready for merge"
