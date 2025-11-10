@@ -8,6 +8,15 @@ let webviewPanel: vscode.WebviewPanel | null = null;
 export function createWebviewPanel(context?: vscode.ExtensionContext) {
   if (webviewPanel) {
     webviewPanel.reveal();
+    // Send current font settings when revealing existing panel
+    const config = vscode.workspace.getConfiguration('repltile');
+    const fontFamily = config.get<string>('fontFamily', "'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace");
+    const fontSize = config.get<number>('fontSize', 14);
+    webviewPanel.webview.postMessage({
+      type: 'font-settings',
+      fontFamily: fontFamily,
+      fontSize: fontSize
+    });
     return;
   }
 
@@ -96,6 +105,39 @@ export function createWebviewPanel(context?: vscode.ExtensionContext) {
     webviewPanel = null;
   });
 
+  // Read font settings and send to webview
+  const config = vscode.workspace.getConfiguration('repltile');
+  const fontFamily = config.get<string>('fontFamily', "'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace");
+  const fontSize = config.get<number>('fontSize', 14);
+
+  // Send font settings to webview
+  setTimeout(() => {
+    webviewPanel!.webview.postMessage({
+      type: 'font-settings',
+      fontFamily: fontFamily,
+      fontSize: fontSize
+    });
+  }, 100);
+
+  // Listen for configuration changes
+  context?.subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration(e => {
+      if (e.affectsConfiguration('repltile.fontFamily') || e.affectsConfiguration('repltile.fontSize')) {
+        const newConfig = vscode.workspace.getConfiguration('repltile');
+        const newFontFamily = newConfig.get<string>('fontFamily', fontFamily);
+        const newFontSize = newConfig.get<number>('fontSize', fontSize);
+        
+        if (webviewPanel) {
+          webviewPanel.webview.postMessage({
+            type: 'font-settings',
+            fontFamily: newFontFamily,
+            fontSize: newFontSize
+          });
+        }
+      }
+    })
+  );
+
   // Notify ClojureScript that webview is ready
   setTimeout(() => {
     sendToClojureScript({ type: 'webview-ready' });
@@ -109,6 +151,12 @@ function getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri): s
   // Get the URI for the icon.png file
   const iconUri = webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'icon.png'));
 
+  // Get font settings for loading message
+  const config = vscode.workspace.getConfiguration('repltile');
+  const fontFamily = config.get<string>('fontFamily', "'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace");
+  const fontSize = config.get<number>('fontSize', 14);
+  const loadingFontSize = Math.max(fontSize + 8, 18); // Loading message slightly larger
+
   return `<!DOCTYPE html>
     <html>
     <head>
@@ -120,7 +168,7 @@ function getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri): s
         </script>
     </head>
     <body>
-        <div id="app"><div id="loading-msg" style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:'JetBrains Mono',monospace;font-size:22px;color:#22c55e;">Loading REPLTILE...</div></div>
+        <div id="app"><div id="loading-msg" style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:${fontFamily};font-size:${loadingFontSize}px;color:#22c55e;">Loading REPLTILE...</div></div>
         <script src="${mainJsUri}"></script>
     </body>
     </html>`;

@@ -380,6 +380,18 @@
           "type": "string",
           "default": "~/.repltile/logs",
           "description": "Location where REPLTILE log files are stored"
+        },
+        "repltile.fontFamily": {
+          "type": "string",
+          "default": "'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace",
+          "description": "Font family for REPL input and output. Uses CSS font-family syntax."
+        },
+        "repltile.fontSize": {
+          "type": "number",
+          "default": 14,
+          "minimum": 8,
+          "maximum": 32,
+          "description": "Font size in pixels for REPL input and output"
         }
       }
     }
