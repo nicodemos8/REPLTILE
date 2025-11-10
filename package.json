@@ -2,7 +2,7 @@
   "name": "repltile-clojure-repl",
   "displayName": "REPLTILE - Interactive Clojure REPL",
   "description": "Interactive visual interface for Clojure REPL with standalone nREPL server - Beta Version",
-  "version": "1.0.0-beta",
+  "version": "1.0.1-beta",
   "publisher": "repltile",
   "icon": "icon.png",
   "repository": {
