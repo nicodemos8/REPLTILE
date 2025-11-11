@@ -241,6 +241,12 @@
               (js/setTimeout namespace/update-namespace-display! 1000))
             (output/add-to-output "❌ Cannot execute command: REPL is not connected. Please start the REPL first." "repl-error")))
 
+        "font-settings"
+        (let [font-family (aget message "fontFamily")
+              font-size (aget message "fontSize")]
+          (when (and font-family font-size)
+            (ui/apply-font-settings! font-family font-size)))
+
         "clear-output"
         (do
           (output/clear-console)
